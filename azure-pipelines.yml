@@ -27,10 +27,16 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: PublishSymbols@2
+  inputs:
+    SearchPattern: '**/bin/**/*.pdb'
+    SymbolServerType: ''
+
 - task: CopyFiles@2
   inputs:
-    contents: '_buildOutput/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
